@@ -1,0 +1,9 @@
+Debug: true # Set to true for development
+
+# Mysql
+DatabaseHost: 43.143.132.12
+DatabasePort: 3306
+DatabaseUser: dbhw
+DatabasePassword: "dbhomework"
+DatabaseName: db_dev
+

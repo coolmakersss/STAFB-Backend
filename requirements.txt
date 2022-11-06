@@ -1,9 +1,8 @@
 Django==3.1.7
-psycopg2
+pymysql
 pylint==2.12.2
 pylint-django
 django-nose==1.4.7
-coverage==4.5.3
 pillow
 requests
 pandas
@@ -11,4 +10,3 @@ PyJWT==2.0.1
 django-redis==4.12.1
 PyYAML==5.4.1
 minio==7.0.4
-django-cors-headers==3.7.0
