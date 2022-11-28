@@ -7,3 +7,11 @@ DatabaseUser: dbhw
 DatabasePassword: "dbhomework"
 DatabaseName: db_dev
 
+#minIO对象存贮
+S3Address: 43.143.132.12:9199
+S3SecretId: root
+S3SecretKey: qwertyuiop
+S3BucketTeamLogo: team_logo
+S3BucketPlayerPhoto: player_photo
+S3BucketCoachPhoto: coach_photo
+
