@@ -8,6 +8,8 @@ class Team(models.Model):
     location = models.CharField(max_length=50)
     name_cn = models.CharField(max_length=50)
     location_cn = models.CharField(max_length=50)
+    division = models.CharField(max_length=50,null=True)
+    subarea = models.CharField(max_length=50,null=True)
     gym = models.CharField(max_length=50)
     logo = models.TextField(null=True)
 
@@ -23,11 +25,11 @@ class Player(models.Model):
     name = models.CharField(max_length=50)
     name_cn = models.CharField(max_length=50)
     age = models.IntegerField()
-    hight = models.IntegerField()
-    weight = models.IntegerField()
+    hight = models.IntegerField()                                        # 单位cm
+    weight = models.IntegerField()                                       # 单位kg
     position = models.CharField(max_length=50)
     number = models.IntegerField()
-    photo = models.TextField()
+    photo = models.TextField(null=True)
     team = models.ForeignKey(Team,null=True,on_delete=models.SET_NULL)
 
 
@@ -111,3 +113,27 @@ class PlayerStats(models.Model):
     free_throws_attempted = models.IntegerField()
     free_throws_made = models.IntegerField()
     plus_minus = models.IntegerField()
+
+
+class PlayerHonors(models.Model):
+    id = models.AutoField(primary_key=True)
+    season = models.CharField(max_length=50)
+    mvp = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="mvp_player")
+    dpoy = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="dpoy_player")
+    smoy = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="smoy_player")
+    amvp = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="amvp_player")
+    first_team = models.CharField(max_length=50)        #Save player's id with "," for interval. Samlpe: 1,5,21,30,14
+    second_team = models.CharField(max_length=50)       #Save player's id with "," for interval. Samlpe: 1,5,21,30,14
+    third_team = models.CharField(max_length=50)        #Save player's id with "," for interval. Samlpe: 1,5,21,30,14
+    d_first_team = models.CharField(max_length=50)      #Save player's id with "," for interval. Samlpe: 1,5,21,30,14
+    d_second_team = models.CharField(max_length=50)     #Save player's id with "," for interval. Samlpe: 1,5,21,30,14
+    d_third_team = models.CharField(max_length=50)      #Save player's id with "," for interval. Samlpe: 1,5,21,30,14
+
+    #???
+    score_king = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="score_king_player")
+    rebound_king = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="rebound_king_player")
+    assist_king = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="assist_king_player")
+    steal_king = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="steal_king_player")
+    block_king = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL,related_name="block_king_player")
+
+
