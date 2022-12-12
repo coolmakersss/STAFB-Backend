@@ -9,4 +9,4 @@ pandas
 PyJWT==2.0.1
 django-redis==4.12.1
 PyYAML==5.4.1
-minio==7.0.4
+minio==7.1.12
