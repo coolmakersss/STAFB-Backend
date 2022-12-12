@@ -18,7 +18,9 @@ def list_team_info(request: HttpRequest):
     teamName = request.GET.get("teamName")
     team = Team.objects.filter(name=teamName).first()
     if team is None:
-        return failed_api_response(ErrorCode.TEAM_NOT_FOUND ,"Can't find such a team!")
+        team = Team.objects.filter(name_cn=teamName).first()
+        if team is None:
+            return failed_api_response(ErrorCode.TEAM_NOT_FOUND ,"Can't find such a team!")
     teamInfo = {
         "name" : team.name,
         "name_cn" : team.name_cn,
