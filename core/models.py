@@ -64,13 +64,14 @@ class CommentStar(models.Model):
     id = models.AutoField(primary_key=True)
     create_by = models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
     belong_to = models.ForeignKey(Game,null=True,on_delete=models.SET_NULL)
+    for_player = models.ForeignKey(Player,null=True,on_delete=models.SET_NULL)
     create_time = models.DateTimeField(auto_now=True)
     score = models.IntegerField()
 
 
 class TeamStats(models.Model):
     id = models.AutoField(primary_key=True)
-    belong_to_player = models.ForeignKey(Team,null=True,on_delete=models.SET_NULL)
+    belong_to_team = models.ForeignKey(Team,null=True,on_delete=models.SET_NULL)
     belong_to_game = models.ForeignKey(Game,null=True,on_delete=models.SET_NULL)
 
     #赛场数据

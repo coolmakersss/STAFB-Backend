@@ -1,8 +1,10 @@
 """
 define the url routes of core api
 """
-from core.api.player import list_player_info
-from core.api.team import list_team_info
+from core.api.comment import get_comment, upload_comment
+from core.api.game import list_game_info
+from core.api.player import list_all_player_info, list_player_info
+from core.api.team import list_team_info, list_team
 from django.urls import path
 
 urlpatterns = [
@@ -10,7 +12,16 @@ urlpatterns = [
 
     #team
     path('team/team_info', list_team_info),
+    path('team/list_team', list_team),
 
     #player
-    path('player/player_info', list_player_info)
+    path('player/player_info', list_player_info),
+    path('player/list_player', list_all_player_info),
+
+    #game
+    path('game/game_info', list_game_info),
+
+    #comment
+    path('comment/upload_comment', upload_comment),
+    path('comment/get_comment', get_comment),
 ]

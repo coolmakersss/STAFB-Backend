@@ -30,7 +30,7 @@ SECRET_KEY = '%pkp$f6h^3vj@10e72wd)ek3l@*+&+poqn!0ciejtm_flq*0se'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','172.20.224.41']
+ALLOWED_HOSTS = ['127.0.0.1','172.20.224.41','43.143.132.12']
 
 
 # Application definition
@@ -130,3 +130,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#
+S3_ADDRESS = _YAML_CONFIG['S3Address']
