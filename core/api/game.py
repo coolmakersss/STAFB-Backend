@@ -26,9 +26,12 @@ def list_game_info(request: HttpRequest):
     game_details = []
 
     for game in games:
-        tmp = model_to_dict(game,fields=["season","time", "host", "guest", "location_cn","host_score","guest_score"])
-        tmp["host"] = game.host.name_cn
-        tmp["guest"] = game.guest.name_cn
+        tmp = model_to_dict(game,fields=["id","season","time","host_score","guest_score"])
+        tmp["host_gym"] = game.host.gym
+        tmp["host_name"] = game.host.name
+        tmp["host_name_cn"] = game.host.name_cn
+        tmp["guest_name"] = game.guest.name
+        tmp["guest_name_cn"] = game.guest.name_cn
         game_details.append(tmp)
     def rule(t):
         return t["time"]

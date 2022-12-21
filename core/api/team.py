@@ -1,6 +1,6 @@
 from stringprep import in_table_a1
 from core.api.utils import ErrorCode, failed_api_response, parse_data, response_wrapper, success_api_response
-from core.models import Team, Game, TeamStats
+from core.models import Coach, Team, Game, TeamStats
 from django.http import HttpRequest
 from django.forms import model_to_dict
 from django.views.decorators.http import (require_GET, require_http_methods,
@@ -47,6 +47,8 @@ def list_team_info(request: HttpRequest):
         free_throws_rate = Avg('free_throws_made') / Avg('free_throws_attempted'),
 
         )
+    coach = Coach.objects.filter(team=team).first()
+    coach_info : dict = model_to_dict(coach,fields=["name","name_cn","age","photo"])
     teamInfo = {
         "name" : team.name,
         "name_cn" : team.name_cn,
@@ -55,7 +57,8 @@ def list_team_info(request: HttpRequest):
         "division": team.division,
         "subarea" : team.subarea,
         "gym": team.gym,
-        "logo": team.logo
+        "logo": team.logo,
+        "coach_info": coach_info
     }
     teamInfo = {**teamInfo, **stats}
 

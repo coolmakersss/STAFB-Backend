@@ -23,3 +23,13 @@ pip3 install -r requirements.txt
 ```sh
 python3 manage.py runserver
 ```
+
+
+
+## 部署命令
+```sh
+sudo docker build -t stafb-backend:test .
+sudo docker ps
+sudo docker stop "CONTAINER ID"
+sudo docker run  -v ~/photo-set:/app/photo-set -d -p 8100:8000 "stafb-backend:test"
+```
