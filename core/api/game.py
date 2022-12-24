@@ -4,6 +4,7 @@ from sysconfig import get_path_names
 from telnetlib import GA
 
 from django.forms import model_to_dict
+from core.api.auth import jwt_auth
 from core.api.utils import response_wrapper
 from core.api.utils import ErrorCode, failed_api_response, parse_data, response_wrapper, success_api_response
 from core.models import Game, Player, PlayerStats, Team, TeamStats
@@ -12,7 +13,7 @@ from django.views.decorators.http import (require_GET, require_http_methods,
                                           require_POST)
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_game_info(request: HttpRequest):
     """List all games
@@ -46,7 +47,7 @@ def list_game_info(request: HttpRequest):
     return success_api_response(gameInfo)
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def game_team_stats(request: HttpRequest):
     """List team stats for a game
@@ -83,7 +84,7 @@ def game_team_stats(request: HttpRequest):
 
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def game_player_stats(request: HttpRequest):
     """List player stats for a game

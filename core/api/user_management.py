@@ -17,7 +17,6 @@ from core.api.utils import (ErrorCode, failed_api_response, parse_data,
 from core.models import UserProfile, User
 
 @response_wrapper
-#@jwt_auth(perms=["auth.add_user"])
 @require_POST
 def create_user(request: HttpRequest):
     """create user
@@ -54,7 +53,7 @@ def create_user(request: HttpRequest):
 
 
 @response_wrapper
-#@jwt_auth(perms=["auth.add_user"])
+@jwt_auth(perms=[])
 @require_POST
 def lock_user(request: HttpRequest):
     """lock user
@@ -77,7 +76,7 @@ def lock_user(request: HttpRequest):
     return success_api_response({"id": user.id})
 
 @response_wrapper
-#@jwt_auth(perms=["auth.add_user"])
+@jwt_auth(perms=[])
 @require_POST
 def unlock_user(request: HttpRequest):
     """lock user
@@ -101,7 +100,7 @@ def unlock_user(request: HttpRequest):
 
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_user(request: HttpRequest):
     """List all players

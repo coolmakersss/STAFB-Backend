@@ -1,6 +1,5 @@
-from stringprep import in_table_a1
-
 import pandas
+from core.api.auth import jwt_auth
 from core.api.utils import ErrorCode, failed_api_response, parse_data, response_wrapper, success_api_response
 from core.models import Coach, Team, Game, TeamStats
 from django.http import HttpRequest, HttpResponse
@@ -10,7 +9,7 @@ from django.views.decorators.http import (require_GET, require_http_methods,
 from django.db.models import Avg
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_team_info(request: HttpRequest):
     """List team which meets the need
@@ -68,7 +67,7 @@ def list_team_info(request: HttpRequest):
 
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_team(request: HttpRequest):
     """List all teams and rank
@@ -119,7 +118,7 @@ def list_team(request: HttpRequest):
     return success_api_response(team_data)
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_team_csv(request: HttpRequest):
     """List all teams in csv file

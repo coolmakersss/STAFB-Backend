@@ -2,6 +2,7 @@ import json
 from os import stat
 from django.forms import model_to_dict
 from STATFB.settings import S3_ADDRESS
+from core.api.auth import jwt_auth
 from core.api.utils import ErrorCode, failed_api_response, parse_data, response_wrapper, success_api_response
 from core.models import CommentStar, Game, Player, PlayerStats, Team, Comment, User
 from django.http import HttpRequest
@@ -12,7 +13,7 @@ from django.db.models import Avg
 
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def get_comment(request: HttpRequest):
     """List comments for a game
@@ -42,7 +43,7 @@ def get_comment(request: HttpRequest):
     return success_api_response(commentInfo)
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_POST
 def upload_comment(request: HttpRequest):
     """upload comments for a game
@@ -61,7 +62,7 @@ def upload_comment(request: HttpRequest):
     return success_api_response({'id': ans.id})
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_POST
 def delete_comment(request: HttpRequest):
     """delete comment for a game
@@ -78,7 +79,7 @@ def delete_comment(request: HttpRequest):
     return success_api_response({'id': commentId})
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_POST
 def upload_star(request: HttpRequest):
     """upload comment star for a player

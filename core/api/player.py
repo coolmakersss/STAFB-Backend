@@ -12,7 +12,7 @@ from django.db.models import Avg
 from django.utils.encoding import escape_uri_path
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_player_info(request: HttpRequest):
     """List team which meets the need
@@ -72,7 +72,7 @@ def list_player_info(request: HttpRequest):
 
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_all_player_info(request: HttpRequest):
     """List all players
@@ -102,7 +102,7 @@ def list_all_player_info(request: HttpRequest):
     return success_api_response(playerInfo)
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_all_player_info_csv(request: HttpRequest):
     """List all players in csv file
@@ -133,7 +133,7 @@ def list_all_player_info_csv(request: HttpRequest):
 
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def get_player_photo(request: HttpRequest):
     """List all players
@@ -161,7 +161,7 @@ def get_player_photo(request: HttpRequest):
 
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def get_team_players(request: HttpRequest):
     """List all players from a team

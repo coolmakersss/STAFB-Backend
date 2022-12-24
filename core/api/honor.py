@@ -8,7 +8,7 @@ from django.views.decorators.http import (require_GET, require_http_methods,
 from django.db.models import Avg
 
 @response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@jwt_auth(perms=[])
 @require_GET
 def list_honor(request: HttpRequest):
     """List honor for a season
