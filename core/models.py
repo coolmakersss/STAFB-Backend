@@ -1,5 +1,15 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+
+
+class AuthRecord(models.Model):
+    """This model describes a user auth record
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_at = models.DateTimeField()
+    expires_by = models.DateTimeField()
+
 
 # Create your models here.
 class Team(models.Model):
@@ -16,7 +26,7 @@ class Team(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    home_team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    home_team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
     profile_photo = models.TextField(null=True)
 
 

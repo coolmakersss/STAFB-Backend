@@ -1,6 +1,8 @@
 from os import stat
 from django.forms import model_to_dict
+import pandas
 from STATFB.settings import S3_ADDRESS
+from core.api.auth import jwt_auth
 from core.api.utils import ErrorCode, failed_api_response, parse_data, response_wrapper, success_api_response
 from core.models import Player, PlayerStats, Team
 from django.http import HttpRequest, HttpResponse
@@ -58,6 +60,7 @@ def list_player_info(request: HttpRequest):
         "age" : player.age,
         "hight" : player.hight,
         "weight": player.weight,
+        "position" : player.position,
         "number" : player.number,
         "team": player.team.name,
         "team_cn": player.team.name_cn,
@@ -84,7 +87,7 @@ def list_all_player_info(request: HttpRequest):
     player_details = []
 
     for player in players:
-        tmp = model_to_dict(player,fields=["id","name","name_cn", "age", "hight", "weight","number","photo"])
+        tmp = model_to_dict(player,fields=["id","name","name_cn", "age", "hight", "weight", "position", "number","photo"])
         tmp["team"] = player.team.name_cn
         player_details.append(tmp)
     def rule(t):
@@ -97,6 +100,37 @@ def list_all_player_info(request: HttpRequest):
     }
 
     return success_api_response(playerInfo)
+
+@response_wrapper
+#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@require_GET
+def list_all_player_info_csv(request: HttpRequest):
+    """List all players in csv file
+
+    [route]: /api/player/list_player/csv
+
+    [method]: GET
+    """
+
+    players = Player.objects.all()
+    player_details = []
+
+    for player in players:
+        tmp = model_to_dict(player,fields=["id","name","name_cn", "age", "hight", "weight","position","number","photo"])
+        tmp["team"] = player.team.name_cn
+        tmp["photo"] = "http://43.143.132.12/photo-set/"+player.photo
+        player_details.append(tmp)
+    def rule(t):
+        return t["name"]
+    player_details.sort(key=rule)
+
+    data_frames = pandas.DataFrame(player_details)
+    meta_info_columns = ["id","name","name_cn", "age", "hight", "weight","position","number","photo"]
+    data_frames = data_frames[meta_info_columns]
+    ret_data = data_frames.to_csv()
+
+    return HttpResponse(ret_data)
+
 
 @response_wrapper
 #@jwt_auth(perms=[CORE_EXAM_VIEW])

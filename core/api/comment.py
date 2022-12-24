@@ -9,20 +9,6 @@ from django.views.decorators.http import (require_GET, require_http_methods,
                                           require_POST)
 from django.db.models import Avg
 
-@response_wrapper
-#@jwt_auth(perms=[CORE_EXAM_VIEW])
-@require_GET
-def upload_comment(request: HttpRequest):
-    """List all players
-
-    [route]: /api/player/list_player
-
-    [method]: POST
-    """
-
-
-
-    return success_api_response(gameInfo)
 
 
 @response_wrapper
@@ -39,7 +25,7 @@ def get_comment(request: HttpRequest):
     comments = Comment.objects.filter(belong_to=game).all()
     comment_detils = []
     for comment in comments:
-        tmp = model_to_dict(comment, fields=["create_by","create_time", "text"])
+        tmp = model_to_dict(comment, fields=["id","create_by","create_time", "text"])
         tmp["create_by"] = comment.create_by.username
         comment_detils.append(tmp)
     def rule(t):
@@ -59,7 +45,7 @@ def get_comment(request: HttpRequest):
 #@jwt_auth(perms=[CORE_EXAM_VIEW])
 @require_POST
 def upload_comment(request: HttpRequest):
-    """List comments for a game
+    """upload comments for a game
 
     [route]: /api/comment/upload_comment
 
@@ -71,5 +57,44 @@ def upload_comment(request: HttpRequest):
     data["create_by"] = User.objects.filter(id=userId).first()
     data["belong_to"] = Game.objects.filter(id=gameId).first()
     ans: Comment = Comment.objects.create(**data)
+
+    return success_api_response({'id': ans.id})
+
+@response_wrapper
+#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@require_POST
+def delete_comment(request: HttpRequest):
+    """delete comment for a game
+
+    [route]: /api/comment/delete_comment
+
+    [method]: post
+    """
+    commentId = parse_data(request)["id"]
+    if Comment.objects.filter(id=commentId).first() is None:
+        return failed_api_response(ErrorCode.COMMENT_NOT_FOUND ,"该评论不存在或已被删除")
+    else:
+        Comment.objects.get(id=commentId).delete()
+    return success_api_response({'id': commentId})
+
+@response_wrapper
+#@jwt_auth(perms=[CORE_EXAM_VIEW])
+@require_POST
+def upload_star(request: HttpRequest):
+    """upload comment star for a player
+
+    [route]: /api/comment/upload_star
+
+    [method]: post
+    """
+    data: dict = parse_data(request)
+    userId = data.get("create_by")
+    gameId = data.get("belong_to")
+    playerId = data.get("for_player")
+    data["create_by"] = User.objects.filter(id=userId).first()
+    data["belong_to"] = Game.objects.filter(id=gameId).first()
+    data["for_player"] = Player.objects.filter(id=playerId).first()
+    data["score"] = data.get("score")
+    ans: CommentStar = CommentStar.objects.create(**data)
 
     return success_api_response({'id': ans.id})

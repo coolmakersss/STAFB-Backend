@@ -25,7 +25,7 @@ class ErrorCode(Enum):
     BAD_REQUEST_ERROR = 400_00
     INVALID_REQUEST_ARGUMENT_ERROR = 400_01
     REQUIRED_ARG_IS_NULL_ERROR = 400_02
-    STUDENT_CANNOT_LOGIN_ERROR = 400_03
+    INVALID_ACCOUNT_STATE_ERROR = 400_03
 
     # unauthorized family
     UNAUTHORIZED = 401  # deprecated
@@ -41,6 +41,7 @@ class ErrorCode(Enum):
     ITEM_NOT_FOUND = 404  # deprecated
     TEAM_NOT_FOUND = 404_00
     PLAYER_NOT_FOUND = 404_01
+    COMMENT_NOT_FOUND = 404_02
 
     # duplicated family
     ITEM_ALREADY_EXISTS = 409  # deprecated
