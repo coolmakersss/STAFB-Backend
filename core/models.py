@@ -59,7 +59,15 @@ class Game(models.Model):
     guest = models.ForeignKey(Team,on_delete=models.CASCADE,related_name="guest_team")
     time = models.DateTimeField()
     host_score = models.IntegerField(null=True)
+    host_score_1 = models.IntegerField(null=True)
+    host_score_2 = models.IntegerField(null=True)
+    host_score_3 = models.IntegerField(null=True)
+    host_score_4 = models.IntegerField(null=True)
     guest_score = models.IntegerField(null=True)
+    guest_score_1 = models.IntegerField(null=True)
+    guest_score_2 = models.IntegerField(null=True)
+    guest_score_3 = models.IntegerField(null=True)
+    guest_score_4 = models.IntegerField(null=True)
 
 
 class Comment(models.Model):

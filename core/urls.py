@@ -1,23 +1,26 @@
 """
 define the url routes of core api
 """
-from core.api.auth import obtain_jwt_token
+from core.api.auth import obtain_jwt_token, refresh_jwt_token
 from core.api.comment import delete_comment, get_comment, upload_comment, upload_star
-from core.api.game import list_game_info
+from core.api.game import game_player_stats, game_team_stats, list_game_info
 from core.api.honor import list_honor
 from core.api.player import get_player_photo, get_team_players, list_all_player_info, list_all_player_info_csv, list_player_info
 from core.api.team import list_team_csv, list_team_info, list_team
 from django.urls import path
 
-from core.api.user_management import create_user, lock_user
+from core.api.user_management import create_user, list_user, lock_user, unlock_user
 
 urlpatterns = [
     #path('user/create', create_user),team_info
 
     #user
     path('token-auth', obtain_jwt_token),
+    path('token-refresh', refresh_jwt_token),
     path('user/create', create_user),
     path('user/lock_user', lock_user),
+    path('user/unlock_user', unlock_user),
+    path('user/list_user', list_user),
 
     #team
     path('team/team_info', list_team_info),
@@ -33,6 +36,9 @@ urlpatterns = [
 
     #game
     path('game/game_info', list_game_info),
+    path('game/game_team_stats', game_team_stats),
+    path('game/game_player_stats', game_player_stats),
+    path('game/update_game_info', list_game_info),
 
     #comment
     path('comment/list_comment', get_comment),
