@@ -84,7 +84,7 @@ def game_team_stats(request: HttpRequest):
 
 
 @response_wrapper
-@jwt_auth(perms=[])
+#@jwt_auth(perms=[])
 @require_GET
 def game_player_stats(request: HttpRequest):
     """List player stats for a game
@@ -107,7 +107,7 @@ def game_player_stats(request: HttpRequest):
         tmp1 = model_to_dict(stat.belong_to_player,exclude=["id","team"])
         tmp = { **tmp1,**tmp}
 
-        if stat.belong_to_player.team is host_team:
+        if stat.belong_to_player.team == host_team:
             host_details.append(tmp)
         else:
             guest_details.append(tmp)

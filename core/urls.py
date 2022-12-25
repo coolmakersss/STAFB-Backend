@@ -5,11 +5,11 @@ from core.api.auth import obtain_jwt_token, refresh_jwt_token
 from core.api.comment import delete_comment, get_comment, upload_comment, upload_star
 from core.api.game import game_player_stats, game_team_stats, list_game_info
 from core.api.honor import list_honor
-from core.api.player import get_player_photo, get_team_players, list_all_player_info, list_all_player_info_csv, list_player_info
+from core.api.player import get_player_photo, get_team_players, list_all_player_info, list_all_player_info_csv, list_player_info, upload_player_info
 from core.api.team import list_team_csv, list_team_info, list_team
 from django.urls import path
 
-from core.api.user_management import create_user, list_user, lock_user, unlock_user
+from core.api.user_management import change_password, create_user, delete_user, list_user, lock_user, unlock_user
 
 urlpatterns = [
     #path('user/create', create_user),team_info
@@ -21,6 +21,8 @@ urlpatterns = [
     path('user/lock_user', lock_user),
     path('user/unlock_user', unlock_user),
     path('user/list_user', list_user),
+    path('user/change-password', change_password),
+    path('user/delete', delete_user),
 
     #team
     path('team/team_info', list_team_info),
@@ -33,6 +35,7 @@ urlpatterns = [
     path('player/list_player_csv', list_all_player_info_csv),
     path('player/get_player_photo', get_player_photo),
     path('player/get_team_players', get_team_players),
+    path('player/upload_player_info', upload_player_info),
 
     #game
     path('game/game_info', list_game_info),

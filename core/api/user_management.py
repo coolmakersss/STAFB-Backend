@@ -14,7 +14,7 @@ from core.api.auth import jwt_auth
 from core.api.utils import (ErrorCode, failed_api_response, parse_data,
                             require_item_exist, response_wrapper,
                             success_api_response, wrapped_api, username_checker)
-from core.models import UserProfile, User
+from core.models import AuthRecord, UserProfile, User
 
 @response_wrapper
 @require_POST
@@ -126,3 +126,53 @@ def list_user(request: HttpRequest):
     }
 
     return success_api_response(userInfo)
+
+@response_wrapper
+@jwt_auth(perms=[])
+@require_POST
+def change_password(request: HttpRequest):
+    """reset password if old password matches
+
+    [method]: POST
+
+    [route]: /api/user/change-password
+    """
+
+    data: dict = parse_data(request)
+    user = User.objects.get(username=data["username"])
+    if not data:
+        return failed_api_response(ErrorCode.INVALID_REQUEST_ARGS, "Invalid request args.")
+    old_password = data.get("old-password")
+    new_password = data.get("new-password")
+    if old_password is None:
+        return failed_api_response(ErrorCode.INVALID_REQUEST_ARGS, "Old password required.")
+    if new_password is None:
+        return failed_api_response(ErrorCode.INVALID_REQUEST_ARGS, "New password required.")
+    if not user.check_password(old_password):
+        return failed_api_response(ErrorCode.REFUSE_ACCESS, "Old password not matched.")
+    user.set_password(new_password)
+    user.save()
+    AuthRecord.objects.filter(user=user).delete()
+    return success_api_response({"result": "Ok, password has been updated."})
+
+@response_wrapper
+@jwt_auth(perms=[])
+@require_POST
+def delete_user(request: HttpRequest):
+    """create user
+
+    [method]: POST
+
+    [route]: /api/user/delete
+    """
+    data: dict = parse_data(request)
+    if not data:
+        return failed_api_response(ErrorCode.INVALID_REQUEST_ARGS, "用户不存在或已被删除.")
+    
+    username = data.get("username")
+    user = User.objects.get(username = username)
+    UserProfile.objects.get(user=user).delete()
+    User.objects.get(username = username).delete()
+
+    data = {"id": user.id}
+    return success_api_response(data)

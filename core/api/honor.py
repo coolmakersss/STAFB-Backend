@@ -1,4 +1,5 @@
 from stringprep import in_table_a1
+from core.api.auth import jwt_auth
 from core.api.utils import ErrorCode, failed_api_response, parse_data, response_wrapper, success_api_response
 from core.models import Coach, Player, PlayerHonors, Team, Game, TeamStats
 from django.http import HttpRequest

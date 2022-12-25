@@ -34,8 +34,6 @@ class ErrorCode(Enum):
     # refuse family
     REFUSE_ACCESS = 403  # deprecated
     REFUSE_ACCESS_ERROR = 403_00
-    CONFIRM_CHECK_OUT = 403_01
-    SEAT_ARRANGEMENT_ERROR = 403_02
 
     # not found family
     ITEM_NOT_FOUND = 404  # deprecated

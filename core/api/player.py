@@ -1,5 +1,9 @@
+import csv
+from dataclasses import dataclass
 from os import stat
-from django.forms import model_to_dict
+import django
+from django.forms import model_to_dict, models
+from numpy import number
 import pandas
 from STATFB.settings import S3_ADDRESS
 from core.api.auth import jwt_auth
@@ -10,6 +14,8 @@ from django.views.decorators.http import (require_GET, require_http_methods,
                                           require_POST)
 from django.db.models import Avg
 from django.utils.encoding import escape_uri_path
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 @response_wrapper
 @jwt_auth(perms=[])
@@ -188,3 +194,23 @@ def get_team_players(request: HttpRequest):
     }
     
     return success_api_response(playerInfo)
+
+@response_wrapper
+@jwt_auth(perms=[])
+@require_POST
+def upload_player_info(request: HttpRequest):
+    """upload player info in csv
+
+    [route]: /api/player/upload_player_info
+
+    [method]: POST
+    """
+    csvfile = request.FILES.get("file")
+    default_storage.save("./"+csvfile.name,ContentFile(csvfile.read()))
+    with open(csvfile.name,encoding='utf-8')as fp:
+        reader = csv.DictReader(fp)
+        for i in reader:
+            i["team"] = Team.objects.get(id=i.get("team_id"))
+            Player.objects.create(**i)
+
+    return success_api_response({"1":"successful import!"})
